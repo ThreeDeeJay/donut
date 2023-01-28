@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        vcpkg install sdl2 openal-soft fmt libpng --triplet x64-windows
+        vcpkg install
 
     - name: Configure CMake
       run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
