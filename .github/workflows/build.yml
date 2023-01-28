@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        vcpkg install
+        vcpkg install --triplet x64-windows
 
     - name: Configure CMake
       run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
