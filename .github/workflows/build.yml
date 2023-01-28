@@ -1,7 +1,8 @@
 name: Build
 
 on:
-  push
+  push:
+    branches: [ "build" ]
 
 env:
   BUILD_TYPE: Release
