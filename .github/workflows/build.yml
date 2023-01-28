@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  Win64:
+    runs-on: windows-2019
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v10.7
+      with:
+        vcpkgGitCommitId: f14984af3738e69f197bf0e647a8dca12de92996
+        
+    - run: |
+        $VCPKG_ROOT/vcpkg install vcpkg.json
+      shell: bash
+
+    - name: Install dependencies
+      run: |
+        vcpkg install sdl2 openal-soft fmt libpng --triplet x64-windows
+
+    - name: Configure CMake
+      run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
